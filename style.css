@@ -1,0 +1,55 @@
+/* body {
+  background-color: black; */
+/* color: aqua;
+} */
+table {
+  margin: auto;
+  background-color: antiquewhite;
+  color: black;
+  padding: 10px 10px;
+  text-align: center;
+  border-collapse: collapse;
+}
+th {
+  font-size: xx-large;
+}
+
+tr {
+  font-size: large;
+  border: solid 2px maroon;
+}
+
+td {
+  padding: 10px 50px;
+}
+
+#updateBtn {
+  color: green;
+  border: solid 2px green;
+  padding: 6px 9px;
+  cursor: pointer;
+  background-color: rgba(0, 128, 0, 0.09);
+  /* transition: ; */
+}
+
+#deleteBtn {
+  color: red;
+  border: solid 2px red;
+  padding: 6px 9px;
+  cursor: pointer;
+  background-color: rgba(255, 0, 0, 0.107);
+}
+
+#btnsss {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: min-content;
+}
+
+#updateTable {
+  width: min-content;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

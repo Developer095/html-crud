@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <p id="head"></p>
+    <table id="tableS">
+        <thead id="tableH">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Done</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+        </thead>
+        <tbody id="tableB">
+            <tr id="tableR">
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="api-Msg"></div>
+    <div id="updateTable">
+        <h3>Add New Task</h3>
+        <label for="nameIn">Enter task name:</label>
+        <input type="text" placeholder="Name" id="nameIN" required>
+
+        <span>
+            <label for="doneC">Done</label>
+            <input type="checkbox" id="doneC" required>
+        </span>
+        <span id="btnsss">
+            <button id="submitBtn" class="submit">
+                Submit
+            </button>
+            <button id="resetBtn">
+                Reset
+            </button>
+        </span>
+    </div>
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        let head = document.getElementById("head");
+
+        head.textContent = "Data is being Fetched";
+        try {
+            const api = await fetch('https://api.onlinecrockerystore.com/tasks');
+            if (!api.ok) {
+                const error = await api.json();
+                throw new Error(error);
+            }
+            const data = await api.json();
+            console.log("Data: ", data);
+
+            let bodyT = document.getElementById("tableB");
+            bodyT.innerHTML = "";
+            const rowHTML = data.map((item) => {
+                return `<tr>
+            <td>${item.id} </td>
+            <td> ${item.name} </td>
+            <td>${item.done}</td>
+            <td> ${item.createdAt} </td>
+            <td> ${item.updatedAt} </td> 
+             <td> <button id="updateBtn">Update </button>
+                <button id="deleteBtn">Delete </button> </td>
+            </tr>`}).join(" ");
+            bodyT.innerHTML = rowHTML;
+            head.textContent = "Tasks Loaded Successfully";
+
+        } catch (error) {
+            console.log("Error Occured", error);
+            head.textContent = "Error Occured";
+            head.style.background = "red";
+            head.style.color = "white";
+
+        }
+
+
+        const submitBtn = document.getElementById("submitBtn")
+
+
+
+
+        // const strng = TaskObj.stringify();
+
+
+
+        submitBtn.addEventListener("click", async () => {
+            const inputD = document.getElementById("nameIN");
+            const check = document.getElementById("doneC");
+            const msg = document.getElementById("api-Msg");
+
+            console.log(inputD.value)
+            console.log(check.checked)
+            // let TaskObj = {
+            //     name: inputD.value,
+            //     done: check.checked
+            // };
+
+
+
+            try {
+                const api = await fetch('https://api.onlinecrockerystore.com/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: inputD.value,
+                        done: check.checked
+                    })
+                })
+
+                if (!api.ok) {
+                    throw new error("Failed to add Task");
+                }
+                else {
+                    msg.innerHTML = "<p>Task Added Successfully</p>";
+                }
+
+            } catch (error) {
+                msg.innerHTML = `<p>${error}</p>`;
+            }
+        });
+
+
+
+
+    });
+
+
+</script>
+
+</html>
