@@ -164,7 +164,7 @@
             document.querySelectorAll(".updatedBtn").forEach(item => {
                 item.addEventListener("click", () => {
                     const id = item.id.replace("updateBtn", "");
-                    currentId = id; // store current ID globally
+                    currentId = id;
 
                     const rowEle = document.querySelector(`#updateBtn${id}`);
                     const row = rowEle.parentElement.parentElement;
@@ -175,7 +175,6 @@
                 });
             });
             console.log("Check 1");
-            // Only add one submit listener
             submit2.addEventListener("click", async () => {
                 if (!currentId) return;
 
@@ -227,88 +226,6 @@
         }
 
     })
-
-    // const table = document.getElementById("tableB");
-    // const head = document.getElementById("head");
-    // try {
-
-    //     document.addEventListener("DOMContentLoaded", async () => {
-    //         head.textContent = "Data is being Fetched";
-    //         const api = await fetch('https://api.onlinecrockerystore.com/tasks')
-
-    //         if (!api.ok) {
-    //             const error = api.json();
-    //             throw new Error(error)
-    //         }
-    //         const data = await api.json();
-    //         console.log(data);
-    //         const rowData = data.map((item, idx) => {
-    //             return `<tr>
-    //             <td>${item.id}</td>
-    //             <td>${item.name}</td>
-    //             <td>${item.done}</td>
-    //             <td>${item.createdAt}</td>
-    //             <td>${item.updatedAt}</td>
-    //             <td>
-    //             <button id="updateBtn${item.id}" class="updatedBtn" style="color: green;border: solid 2px green;padding: 6px 9px;cursor: pointer;background-color: rgba(0, 128, 0, 0.09);" id="updateBtn${item.id}">Update </button>
-    //             <button id="deleteBtn${item.id}" style="color: red;border: solid 2px red;padding: 6px 9px;cursor: pointer;background-color: rgba(255, 0, 0, 0.107);">Delete </button> </td>
-    //             </tr>`
-    //         }).join("");
-
-    //         head.textContent = "Data Fetched"
-    //         head.style.color = "red";
-    //         head.style.fontWeight = "bold";
-
-    //         table.innerHTML = rowData;
-    //     })
-
-    // } catch (error) {
-    //     console.log("Error Occured", error);
-    //     head.textContent = "Error Occured";
-    //     head.style.color = "red";
-    //     head.style.fontWeight = "bold";
-    // }
-
-    // const submitbtn = document.getElementById("submitBtn");
-    // const msg = document.getElementById("api-Msg");
-
-
-    // submitbtn.addEventListener("click", async () => {
-    //     const name = document.getElementById("nameIN");
-    //     const check = document.getElementById("doneC");
-    //     console.log("1");
-
-    //     try {
-    //         const api = await fetch('https://api.onlinecrockerystore.com/tasks', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 name: name.value,
-    //                 done: check.checked
-    //             })
-    //         })
-
-    //         console.log("2");
-    //         if (!api.ok) {
-    //             const error = await api.json()
-    //             console.log("Error", error);
-
-    //             throw new error("Failed to add Task");
-    //         }
-
-    //         msg.innerHTML = "<p>Task Added Successfully</p>";
-    //         setTimeout(() => {
-    //             msg.innerHTML = "";
-
-    //         }, 3000);
-    //     } catch (error) {
-    //         msg.innerHTML = `<p>${error}</p>`;
-    //     }
-    // });
-
-
 
 
 
