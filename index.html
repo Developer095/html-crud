@@ -29,7 +29,7 @@
     <div id="api-Msg"></div>
     <div id="updateTable">
         <h3>Add New Task</h3>
-        <label for="nameIn">Enter task name:</label>
+        <label for="nameIN">Enter task name:</label>
         <input type="text" placeholder="Name" id="nameIN" required>
 
         <span>
@@ -49,59 +49,68 @@
 </body>
 
 <script>
+
+
     document.addEventListener("DOMContentLoaded", async () => {
-        let head = document.getElementById("head");
+        var rowEle;
+        var id;
+        async function fetchT() {
+            try {
+                let tablee = document.getElementById("tableB");
+                const head = document.getElementById("head");
+                head.textContent = "Data is being Fetched...";
 
-        head.textContent = "Data is being Fetched";
-        try {
-            const api = await fetch('https://api.onlinecrockerystore.com/tasks');
-            if (!api.ok) {
-                const error = await api.json();
-                throw new Error(error);
+                const api = await fetch('https://api.onlinecrockerystore.com/tasks')
+                if (!api.ok) {
+                    const error = await api.json()
+                    throw new Error(error)
+                }
+                const data = await api.json();
+                let dataRow = data.map((item, idx) => {
+                    return `
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.done}</td>
+                <td>${item.createdAt}</td>
+                <td>${item.updatedAt}</td>
+                <td>
+                <button class="updatedBtn" id="updateBtn${item.id}" style="color: green;border: solid 2px green;padding: 6px 9px;cursor: pointer;background-color: rgba(0, 128, 0, 0.09);" >Update </button>
+                <button class="deleteBtn" id="deleteBtn${item.id}" style="color: red;border: solid 2px red;padding: 6px 9px;cursor: pointer;background-color: rgba(255, 0, 0, 0.107);">Delete </button>
+                </td>
+                </tr>
+
+        `}).join("");
+
+                tablee.innerHTML = dataRow;
+                head.textContent = "Tasks Loaded Successfully";
+
+                setTimeout(() => {
+                    head.textContent = "";
+                }, 1500);
+
+
+
+
+
+            } catch (error) {
+                console.log("Error Occured", error);
+                head.textContent = "Error Occured";
+                head.style.background = "red";
+                head.style.color = "white";
+
             }
-            const data = await api.json();
-            console.log("Data: ", data);
-
-            let bodyT = document.getElementById("tableB");
-            bodyT.innerHTML = "";
-            const rowHTML = data.map((item) => {
-                return `<tr>
-            <td>${item.id} </td>
-            <td> ${item.name} </td>
-            <td>${item.done}</td>
-            <td> ${item.createdAt} </td>
-            <td> ${item.updatedAt} </td> 
-             <td> <button id="updateBtn">Update </button>
-                <button id="deleteBtn">Delete </button> </td>
-            </tr>`}).join(" ");
-            bodyT.innerHTML = rowHTML;
-            head.textContent = "Tasks Loaded Successfully";
-
-        } catch (error) {
-            console.log("Error Occured", error);
-            head.textContent = "Error Occured";
-            head.style.background = "red";
-            head.style.color = "white";
-
         }
 
 
-        const submitBtn = document.getElementById("submitBtn")
+        fetchT()
+        const submit = document.getElementById("submitBtn")
 
-
-
-
-
-
-        submitBtn.addEventListener("click", async () => {
-            const inputD = document.getElementById("nameIN");
-            const check = document.getElementById("doneC");
+        submit.addEventListener("click", async () => {
             const msg = document.getElementById("api-Msg");
-
-            console.log(inputD.value)
-            console.log(check.checked)
-
-
+            const inputV = document.getElementById("nameIN")
+            const check = document.getElementById("doneC")
+            console.log("hi")
 
             try {
                 const api = await fetch('https://api.onlinecrockerystore.com/tasks', {
@@ -110,27 +119,107 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        name: inputD.value,
+                        name: inputV.value,
                         done: check.checked
                     })
                 })
 
+
                 if (!api.ok) {
-                    throw new error("Failed to add Task");
+                    const error = api.json()
+                    throw new Error(error)
                 }
-                else {
-                    msg.innerHTML = "<p>Task Added Successfully</p>";
-                }
+                fetchT();
+                msg.textContent = "Table Updated"
 
+                setTimeout(() => {
+                    msg.textContent = ""
+                }, 2000);
             } catch (error) {
-                msg.innerHTML = `<p>${error}</p>`;
+                console.log("Error Occured", error);
+                msg.textContent = "Error Occured";
+                msg.style.background = "red";
+                msg.style.color = "white";
             }
-        });
+        })
+        let currentId = null;
+
+        async function updateEle() {
+            await fetchT();
 
 
+            const inputV = document.getElementById("nameIN");
+            const check = document.getElementById("doneC");
+            const msg = document.getElementById("api-Msg");
+            const submit2 = document.getElementById("submitBtn");
+
+            document.querySelectorAll(".updatedBtn").forEach(item => {
+                item.addEventListener("click", () => {
+                    const id = item.id.replace("updateBtn", "");
+                    currentId = id;
+
+                    const rowEle = document.querySelector(`#updateBtn${id}`);
+                    const row = rowEle.parentElement.parentElement;
+                    const cells = row.querySelectorAll("td");
+
+                    inputV.value = cells[1].textContent;
+                    check.checked = cells[2].textContent;
+                });
+            });
+            console.log("Check 1");
+            submit2.addEventListener("click", async () => {
+                if (!currentId) return;
+
+                try {
+
+                    const api = await fetch(`https://api.onlinecrockerystore.com/tasks/${currentId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: inputV.value,
+                            done: check.checked
+                        })
+                    });
+
+                    if (!api.ok) {
+                        const error = await api.json();
+                        throw new Error(error);
+                    }
+                    await fetchT();
+                    msg.textContent = "Table Updated";
+
+                    setTimeout(() => {
+                        msg.textContent = "";
+                    }, 2000);
+                } catch (error) {
+                    console.log("Error", error);
+                    msg.textContent = "ERROR";
+                    msg.style.backgroundColor = "red";
+                    msg.style.fontWeight = "900";
+                }
+
+            });
+        }
+
+        updateEle();
+
+        async function deleteEle() {
+            const deltBtn = document.querySelectorAll(".deleteBtn")
+
+            deltBtn.forEach((item) => {
+                item.addEventListener("click", () => {
+                    const id = item.id.replace("deleteBtn", "")
+                    console.log(id)
+                })
+
+            })
+        }
+
+    })
 
 
-    });
 
 
 </script>
