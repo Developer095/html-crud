@@ -1,0 +1,112 @@
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        async function fetchTable() {
+            let head = document.getElementById("head");
+
+            head.textContent = "Data is being Fetched...";
+            try {
+                const api = await fetch('https://api.onlinecrockerystore.com/tasks');
+                if (!api.ok) {
+                    const error = await api.json();
+                    throw new Error(error);
+                }
+                const data = await api.json();
+                console.log("Data: ", data);
+
+                let bodyT = document.getElementById("tableB");
+                const rowHTML = data.map((item, idx) => {
+                    return `<tr>
+            <td>${item.id} </td>
+            <td> ${item.name} </td>
+            <td>${item.done}</td>
+            <td> ${item.createdAt} </td>
+            <td> ${item.updatedAt} </td> 
+             <td> <button class="updatedBtn" style="color: green;border: solid 2px green;padding: 6px 9px;cursor: pointer;background-color: rgba(0, 128, 0, 0.09);" id="updateBtn${item.id}">Update </button>
+                <button id="deleteBtn${item.id}">Delete </button> </td>
+            </tr>`}).join("");
+                bodyT.innerHTML = rowHTML;
+                head.textContent = "Tasks Loaded Successfully";
+
+                document.querySelectorAll(".updatedBtn").forEach(item => {
+                    item.addEventListener("click", () => {
+                        const id = item.id.replace("updateBtn", "")
+                        console.log(id);
+
+
+
+                    })
+                })
+
+            } catch (error) {
+                console.log("Error Occured", error);
+                head.textContent = "Error Occured";
+                head.style.background = "red";
+                head.style.color = "white";
+
+            }
+        }
+
+        await fetchTable()
+
+
+
+
+        const submitBtn = document.getElementById("submitBtn")
+
+
+
+
+        submitBtn.addEventListener("click", async () => {
+            const inputD = document.getElementById("nameIN");
+            const check = document.getElementById("doneC");
+            const msg = document.getElementById("api-Msg");
+
+            console.log(inputD.value)
+            console.log(check.checked)
+            // let TaskObj = {
+            //     name: inputD.value,
+            //     done: check.checked
+            // };
+
+
+
+            try {
+                const api = await fetch('https://api.onlinecrockerystore.com/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: inputD.value,
+                        done: check.checked
+                    })
+                })
+
+                if (!api.ok) {
+                    const error = await api.json()
+                    console.log("Error", error);
+
+                    throw new error("Failed to add Task");
+                }
+
+                await fetchTable()
+                msg.innerHTML = "<p>Task Added Successfully</p>";
+                setTimeout(() => {
+                    msg.innerHTML = "";
+
+                }, 3000);
+
+
+
+            } catch (error) {
+                msg.innerHTML = `<p>${error}</p>`;
+            }
+        });
+
+
+
+
+    });
+
+
+</script>

@@ -32,7 +32,7 @@ td {
   /* transition: ; */
 }
 
-#deleteBtn {
+.deleteBtn {
   color: red;
   border: solid 2px red;
   padding: 6px 9px;
