@@ -92,13 +92,6 @@
 
 
 
-                document.querySelectorAll(".deleteBtn").forEach(item => {
-                    item.addEventListener("click", () => {
-                        id = item.id.replace("deleteBtn", "")
-                        console.log(id);
-                    })
-                })
-
 
             } catch (error) {
                 console.log("Error Occured", error);
@@ -108,7 +101,6 @@
 
             }
         }
-
 
 
         fetchT()
