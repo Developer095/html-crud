@@ -60,11 +60,12 @@
                 const head = document.getElementById("head");
                 head.textContent = "Data is being Fetched...";
 
-                const api = await fetch('https://api.onlinecrockerystore.com/tasks');
+                const api = await fetch('https://api.onlinecrockerystore.com/task')
                 if (!api.ok) {
-                    const error = await api.json();
-                    throw new Error(error);
+                    const error2 = await api.json();
+                    throw new Error(JSON.stringify(error2));
                 }
+
                 const data = await api.json();
                 let dataRow = data.map(item => `
             <tr>
@@ -113,7 +114,7 @@
             console.log("hi")
 
             try {
-                const api = await fetch('https://api.onlinecrockerystore.com/tasks', {
+                const api = await fetch('https://api.onlinecrockerystore.com/task', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -123,7 +124,6 @@
                         done: check.checked
                     })
                 })
-
 
                 if (!api.ok) {
                     const error = api.json()
@@ -171,7 +171,7 @@
 
                 try {
 
-                    const api = await fetch(`https://api.onlinecrockerystore.com/tasks/${currentId}`, {
+                    const api = await fetch('https://api.onlinecrockerystore.com/task/42', {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json'
@@ -180,7 +180,7 @@
                             name: inputV.value,
                             done: check.checked
                         })
-                    });
+                    })
 
                     if (!api.ok) {
                         const error = await api.json();
@@ -225,7 +225,7 @@
                     const row = rowEle.parentElement.parentElement;
 
                     try {
-                        const api = await fetch(`https://api.onlinecrockerystore.com/tasks/${id}`, {
+                        const api = await fetch(`https://api.onlinecrockerystore.com/task/${id}`, {
                             method: 'DELETE'
                         })
 
