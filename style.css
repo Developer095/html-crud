@@ -1,55 +1,173 @@
-/* body {
-  background-color: black; */
-/* color: aqua;
-} */
-table {
-  margin: auto;
-  background-color: antiquewhite;
-  color: black;
-  padding: 10px 10px;
-  text-align: center;
-  border-collapse: collapse;
-}
-th {
-  font-size: xx-large;
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4eded;
+  color: #333;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-tr {
-  font-size: large;
-  border: solid 2px maroon;
+/* Heading for feedback */
+#head {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #464d77;
+}
+
+/* Message section */
+#api-Msg {
+  margin-top: 10px;
+  font-weight: 600;
+  text-align: center;
+  color: #36827f;
+}
+
+/* Table styles */
+table {
+  width: 95%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border-collapse: collapse;
+  box-shadow: 0 8px 20px rgba(135, 118, 102, 0.3);
+  overflow: hidden;
+}
+
+th {
+  background-color: #464d77;
+  color: #f9db6d;
+  font-size: 20px;
+  padding: 15px;
+  text-shadow: 1px 1px #333;
 }
 
 td {
-  padding: 10px 50px;
+  padding: 14px 30px;
+  font-size: 16px;
+  border-bottom: 1px solid #ccc;
+  color: #464d77;
 }
 
-#updateBtn {
-  color: green;
-  border: solid 2px green;
-  padding: 6px 9px;
+/* Table row hover */
+tr:hover {
+  background-color: #f9db6d33;
+}
+
+/* Update/Delete buttons */
+.updateBtn,
+.deleteBtn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: bold;
   cursor: pointer;
-  background-color: rgba(0, 128, 0, 0.09);
-  /* transition: ; */
+  transition: 0.3s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.updateBtn {
+  background-color: #36827f;
+  color: #fff;
+  border: 2px solid #36827f;
+}
+
+.updateBtn:hover {
+  background-color: #2a6765;
 }
 
 .deleteBtn {
-  color: red;
-  border: solid 2px red;
-  padding: 6px 9px;
-  cursor: pointer;
-  background-color: rgba(255, 0, 0, 0.107);
+  background-color: #f9db6d;
+  color: #464d77;
+  border: 2px solid #877666;
 }
 
-#btnsss {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  width: min-content;
+.deleteBtn:hover {
+  background-color: #ffe589;
 }
 
+/* Form container */
 #updateTable {
-  width: min-content;
+  width: 380px;
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  margin-top: 30px;
+  box-shadow: 0 10px 30px rgba(70, 77, 119, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  border: 2px solid #877666;
+}
+
+#updateTable h3 {
+  text-align: center;
+  color: #464d77;
+  font-size: 22px;
+  margin-bottom: 10px;
+  border-bottom: 2px dashed #f9db6d;
+  padding-bottom: 8px;
+}
+
+#updateTable label {
+  font-weight: bold;
+  color: #36827f;
+}
+
+#updateTable input[type="text"] {
+  padding: 10px;
+  border: 2px solid #877666;
+  border-radius: 6px;
+  background-color: #f4eded;
+  font-size: 15px;
+  width: 100%;
+  outline: none;
+}
+
+#updateTable input[type="text"]:focus {
+  border-color: #36827f;
+  box-shadow: 0 0 5px rgba(54, 130, 127, 0.4);
+}
+
+#updateTable input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+/* Button wrapper */
+#btnsss {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+#submitBtn,
+#resetBtn {
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#submitBtn {
+  background-color: #36827f;
+  color: white;
+  box-shadow: 0 4px 10px rgba(54, 130, 127, 0.3);
+}
+
+#submitBtn:hover {
+  background-color: #2f716d;
+}
+
+#resetBtn {
+  background-color: #877666;
+  color: white;
+  box-shadow: 0 4px 10px rgba(135, 118, 102, 0.3);
+}
+
+#resetBtn:hover {
+  background-color: #6d5d4f;
 }
