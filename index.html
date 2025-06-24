@@ -51,6 +51,11 @@
     let currentId = null;
 
     document.addEventListener("DOMContentLoaded", () => {
+        const btnR = document.getElementById("resetBtn");
+        btnR.addEventListener("click", () => {
+            const table = document.getElementById("tableB");
+            table.innerHTML = ""
+        })
         const inputV = document.getElementById("nameIN");
         const check = document.getElementById("doneC");
         const msg = document.getElementById("api-Msg");
