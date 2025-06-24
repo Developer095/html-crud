@@ -51,11 +51,7 @@
     let currentId = null;
 
     document.addEventListener("DOMContentLoaded", () => {
-        const btnR = document.getElementById("resetBtn");
-        btnR.addEventListener("click", () => {
-            const table = document.getElementById("tableB");
-            table.innerHTML = ""
-        })
+
         const inputV = document.getElementById("nameIN");
         const check = document.getElementById("doneC");
         const msg = document.getElementById("api-Msg");
@@ -152,7 +148,7 @@
             });
         }
 
-        // Attach delete buttons
+        const btnR = document.getElementById("resetBtn");
         function attachDeleteListeners() {
             document.querySelectorAll(".deleteBtn").forEach((btn) => {
                 btn.addEventListener("click", async () => {
@@ -173,6 +169,57 @@
                     }
                 });
             });
+
+            btnR.addEventListener("click", () => {
+                const table = document.getElementById("tableB");
+                const deleteBtns = document.querySelectorAll(".deleteBtn");
+                const msg = document.getElementById("api-Msg");
+                if (table.innerHTML == "") {
+                    msg.textContent = "Table is Empty"
+                    setTimeout(() => {
+                        msg.textContent = ""
+                    }, 1000);
+                } else {
+
+                    msg.innerHTML = `
+                    <p>Are you sure you want to delete all tasks?</p>
+                    <button id="yBtn">Yes</button>
+                    <button id="nBtn">No</button>
+                    `;
+
+                    const yes = document.getElementById("yBtn");
+                    const no = document.getElementById("nBtn");
+
+                    no.addEventListener("click", () => {
+                        msg.innerHTML = "";
+                    });
+
+                    yes.addEventListener("click", async () => {
+
+
+                        table.innerHTML = "";
+
+                        try {
+                            for (const btn of deleteBtns) {
+                                const id = btn.id.replace("deleteBtn", "");
+                                const api = await fetch(`https://api.onlinecrockerystore.com/task/${id}`, {
+                                    method: 'DELETE'
+                                });
+
+                                if (!api.ok) throw new Error(`Failed to delete task ID: ${id}`);
+                            }
+
+                            msg.innerHTML = `<p style="color: white; background: black;">✅ All Tasks Deleted Successfully</p>`;
+                        } catch (error) {
+                            msg.innerHTML = `<p style="color: red;">❌ Delete failed</p>`;
+                            console.error("Error:", error);
+                        }
+
+                        setTimeout(() => (msg.textContent = ""), 2000);
+                    });
+                }
+            });
+
         }
     });
 </script>

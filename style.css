@@ -57,7 +57,9 @@ tr:hover {
 
 /* Update/Delete buttons */
 .updateBtn,
-.deleteBtn {
+.deleteBtn,
+#yBtn,
+#nBtn {
   padding: 8px 14px;
   border-radius: 6px;
   font-weight: bold;
@@ -66,23 +68,27 @@ tr:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.updateBtn {
+.updateBtn,
+#yBtn {
   background-color: #36827f;
   color: #fff;
   border: 2px solid #36827f;
 }
 
-.updateBtn:hover {
+.updateBtn,
+#yBtn:hover {
   background-color: #2a6765;
 }
 
-.deleteBtn {
+.deleteBtn,
+#nBtn {
   background-color: #f9db6d;
   color: #464d77;
   border: 2px solid #877666;
 }
 
-.deleteBtn:hover {
+.deleteBtn,
+#nBtn:hover {
   background-color: #ffe589;
 }
 
